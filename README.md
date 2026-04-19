@@ -14,6 +14,7 @@ Minesweeper — first-usable replicated product repo, materialized by `BytePress
 5. Использовать `scripts/integration-smoke.sh`, если нужен minimal integration handoff check.
 
 ## Доменная карта
+- `Docs/Discovery/*` — current-truth и интервью продукта.
 - `Docs/User/*` — human-facing layer продукта.
 - `Docs/Product/*` — прикладная рамка продукта.
 - `Docs/Technical/*` — стартовый technical contour продукта.
