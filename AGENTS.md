@@ -15,6 +15,17 @@
 5. `Logs/*` как фактологический слой.
 6. `Adapters/*`, `Setup_Guide.md` и `scripts/*` как execution support.
 
+## Startup-handshake первого ответа
+- Первый содержательный ответ агента до исследования или правок обязан явно показать startup mode продукта.
+- В startup-handshake агент коротко фиксирует:
+  1. какой startup mode он использует для текущего product-start pass;
+  2. как он понял scope текущего pass;
+  3. какой branch/start route он использует;
+  4. какой planning-state обнаружен: текущие `ROAD/BACK/PLAN` или отсутствие активного этапа;
+  5. какие owner-domains он читает первыми;
+  6. какой первый конкретный шаг выполняет дальше.
+- Startup-handshake должен быть коротким, наблюдаемым и проверяемым по generated product repo.
+
 ## Как входить в задачу
 - Сначала прочитать `Plans/Roadmap.md`, `Plans/Backlog.md` и current `Plan`.
 - Если scope касается текущей истины продукта, сначала прочитать `Docs/Discovery/Interview.md`.
