@@ -2,6 +2,7 @@
 
 ## Сценарий 1. Войти в replicated product repo
 - Прочитать `../../README.md` и `First_Start.md`.
+- Подтвердить current truth в `../../Docs/Discovery/Interview.md` до предметных правок.
 - Подготовить среду по `../../Setup_Guide.md`.
 - Проверить structural contour через `scripts/dev-test.sh`.
 

@@ -26,12 +26,20 @@
   6. какой первый конкретный шаг выполняет дальше.
 - Startup-handshake должен быть коротким, наблюдаемым и проверяемым по generated product repo.
 
+## First product-start gate
+- Bootstrap-created repo стартует с `Docs/Discovery/Interview.md` в состоянии `Статус_текущей_истины: Не_подтверждена`.
+- Пока пользователь не дал явные ответы и current truth не подтверждена, агент работает только в discovery-only mode.
+- В этом gate допускаются только `Docs/Discovery/*`, `Plans/*`, `Logs/*` и запуск `scripts/reset-product-start.sh` как cleanup route.
+- В этом gate placeholders bootstrap'а не считаются разрешением на изменения в `Docs/Product/*`, `Docs/Technical/*`, `Runtime/*`, `scripts/*` или предметной реализации.
+- Если failed start дал tracked drift вне разрешённого раннего contour, canonical reset route — fresh bootstrap в новый target.
+
 ## Как входить в задачу
 - Сначала прочитать `Plans/Roadmap.md`, `Plans/Backlog.md` и current `Plan`.
-- Если scope касается текущей истины продукта, сначала прочитать `Docs/Discovery/Interview.md`.
+- Для bootstrap-created repo сначала прочитать `Docs/Discovery/Interview.md` и проверить, подтверждена ли current truth ответами пользователя.
 - Для human-facing route использовать `Docs/User/*`.
 - Для structural check использовать `scripts/dev-test.sh` с `BYTEPRESS_ROOT`.
 - Для minimal integration handoff использовать `scripts/integration-smoke.sh` с `BYTEPRESS_ROOT`.
+- Для failed early product-start использовать `scripts/reset-product-start.sh`.
 - Не дублировать repo contracts длинным ручным промптом, если они уже определены продуктом.
 
 ## Границы

@@ -9,6 +9,11 @@
 - `README.md` — карта discovery-layer.
 - `Interview.md` — текущее интервью продукта.
 
+## Gate текущей истины
+- bootstrap-created interview стартует в состоянии `Статус_текущей_истины: Не_подтверждена`;
+- пока пользователь не ответил явно, generated repo остаётся в discovery-only contour;
+- placeholders bootstrap'а не разрешают переход к `Docs/Product/*`, `Docs/Technical/*`, `Runtime/*` и предметной реализации.
+
 ## Границы
 - этот слой не дублирует `Plans/*` и `Logs/*`;
 - history-fact изменений discovery-layer закрывается через planning/log contour;
