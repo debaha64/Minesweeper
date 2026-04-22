@@ -13,11 +13,13 @@ ID: PLAN-000001
 Связанные_ADR:
 
 ## Шаги
-1. Подтвердить current truth в `Docs/Discovery/Interview.md` явными ответами пользователя.
-   - DoD: статус current truth больше не остаётся bootstrap-placeholder.
-2. Синхронизировать discovery-only contour с `Plans/*` и `Logs/*`.
+1. Открыть task-ветку до первого writable action, включая `Docs/Discovery/*`, `Plans/*` и `Logs/*`.
+   - DoD: первый product-start pass не идёт из `develop` или `main`.
+2. Подтвердить current truth в `Docs/Discovery/Interview.md` явными ответами пользователя или узким delta-интервью в том же numbered / lettered / recommended format.
+   - DoD: статус current truth больше не остаётся bootstrap-placeholder, а свободноформатная замена structured choice не используется.
+3. Синхронизировать discovery-only contour с `Plans/*` и `Logs/*`.
    - DoD: planning/log route отражает подтверждённую current truth без выхода в product docs или implementation.
-3. Открыть следующий предметный pass только после подтверждённой current truth.
+4. Открыть следующий предметный pass только после подтверждённой current truth.
    - DoD: следующий scope сформулирован отдельно и не смешан с bootstrap placeholders.
 
 ## Риски

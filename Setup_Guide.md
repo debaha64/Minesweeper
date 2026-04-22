@@ -8,8 +8,17 @@
 ## Рабочий каталог
 - Репозиторий продукта располагается отдельно от BytePress.
 
+## Git start route
+```bash
+git init -b develop
+git add .
+git commit -m "Bootstrap baseline"
+git checkout -b feat/000001-confirm-current-truth
+```
+
 ## Проверка
 - первый product-start pass остаётся discovery-only, пока пользователь не подтвердил `Docs/Discovery/Interview.md`;
+- первый writable action, включая `Docs/Discovery/*`, `Plans/*` и `Logs/*`, допускается только после открытия task-ветки;
 - для structural и integration smoke checks replicated repo установить `BYTEPRESS_ROOT` на путь к исходному `BytePress`;
 - затем из корня продукта выполнить `BYTEPRESS_ROOT=/path/to/BytePress scripts/dev-test.sh`;
 - если ранний product-start сорвался, выполнить `scripts/reset-product-start.sh` и прочитать его drift report;

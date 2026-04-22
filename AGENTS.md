@@ -20,16 +20,18 @@
 - В startup-handshake агент коротко фиксирует:
   1. какой startup mode он использует для текущего product-start pass;
   2. как он понял scope текущего pass;
-  3. какой branch/start route он использует;
-  4. какой planning-state обнаружен: текущие `ROAD/BACK/PLAN` или отсутствие активного этапа;
-  5. какие owner-domains он читает первыми;
-  6. какой первый конкретный шаг выполняет дальше.
+  3. какой branch status он обнаружил;
+  4. какой branch action / start route он использует;
+  5. какой planning-state обнаружен: текущие `ROAD/BACK/PLAN` или отсутствие активного этапа;
+  6. какие owner-domains он читает первыми;
+  7. какой первый конкретный шаг выполняет дальше.
 - Startup-handshake должен быть коротким, наблюдаемым и проверяемым по generated product repo.
 
 ## First product-start gate
 - Bootstrap-created repo стартует с `Docs/Discovery/Interview.md` в состоянии `Статус_текущей_истины: Не_подтверждена`.
 - Пока пользователь не дал явные ответы и current truth не подтверждена, агент работает только в discovery-only mode.
-- В этом gate допускаются только `Docs/Discovery/*`, `Plans/*`, `Logs/*` и запуск `scripts/reset-product-start.sh` как cleanup route.
+- До открытия task-ветки любые writable changes запрещены, включая `Docs/Discovery/*`, `Plans/*` и `Logs/*`.
+- В этом gate допускаются только `Docs/Discovery/*`, `Plans/*`, `Logs/*` и cleanup route failed pass, но сам writable pass начинается только после branch action в task-ветку.
 - В этом gate placeholders bootstrap'а не считаются разрешением на изменения в `Docs/Product/*`, `Docs/Technical/*`, `Runtime/*`, `scripts/*` или предметной реализации.
 - Если failed start дал tracked drift вне разрешённого раннего contour, canonical reset route — fresh bootstrap в новый target.
 
