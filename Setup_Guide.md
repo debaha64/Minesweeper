@@ -4,6 +4,17 @@
 - Linux или WSL
 - Git
 - Python 3.11+
+- Внешние Python-зависимости для первого playable pass не требуются.
+
+## Запуск игры
+```bash
+python3 -m minesweeper
+```
+
+## Локальные тесты
+```bash
+python3 -m unittest
+```
 
 ## Рабочий каталог
 - Репозиторий продукта располагается отдельно от BytePress.

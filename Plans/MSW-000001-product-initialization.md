@@ -2,7 +2,7 @@
 
 ID: PLAN-000001
 Название: Product initialization
-Статус: В_работе
+Статус: Завершено
 Связи: BACK-000001
 Источник: First current pass replicated product repo
 Дата_создания: 2026-04-25
@@ -37,3 +37,6 @@ ID: PLAN-000001
 
 ## DoD
 Bootstrap-created current truth подтверждена, discovery-only gate снят явным решением, а следующий предметный pass открыт отдельно.
+
+## Итог
+Current truth подтверждена пользователем 2026-04-25. Discovery-only gate снят; следующий предметный pass должен быть оформлен отдельно.
