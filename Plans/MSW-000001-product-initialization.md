@@ -5,8 +5,8 @@ ID: PLAN-000001
 Статус: В_работе
 Связи: BACK-000001
 Источник: First current pass replicated product repo
-Дата_создания: 2026-04-22
-Дата_изменения: 2026-04-22
+Дата_создания: 2026-04-25
+Дата_изменения: 2026-04-25
 Основание: Bootstrap materialize first-usable replicated product repo; первый pass должен подтвердить discovery current truth ответами пользователя и не трактовать placeholders как разрешение на implementation.
 Связанные_требования:
 Связанные_backlog: BACK-000001

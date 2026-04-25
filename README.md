@@ -7,13 +7,13 @@ Minesweeper — first-usable replicated product repo, materialized by `BytePress
 
 ## Стартовый маршрут
 1. Прочитать `Docs/User/First_Start.md`.
-2. Прочитать `Docs/Discovery/Interview.md` и подтвердить current truth ответами пользователя.
-3. Подготовить среду по `Setup_Guide.md`.
-4. Проверить current stage/task/pass в `Plans/*`.
-5. Использовать `scripts/dev-test.sh`, если нужен structural check через `BytePress`.
-6. Использовать `scripts/reset-product-start.sh`, если ранний product-start сорвался и нужен cleanup route.
-
-7. Использовать `scripts/integration-smoke.sh`, если нужен minimal integration handoff check.
+2. Прочитать `Docs/Terms/Base_Terms.md`.
+3. Прочитать `Docs/Discovery/Interview.md` и подтвердить current truth ответами пользователя.
+4. Подготовить среду по `Setup_Guide.md`.
+5. Проверить current stage/task/pass в `Plans/*`.
+6. Использовать `scripts/dev-test.sh`, если нужен structural check через `BytePress`.
+7. Использовать `scripts/reset-product-start.sh`, если ранний product-start сорвался и нужен cleanup route.
+8. Использовать `scripts/integration-smoke.sh`, если нужен minimal integration handoff check.
 
 ## Доменная карта
 - `Docs/Discovery/*` — current-truth и интервью продукта.
