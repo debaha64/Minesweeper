@@ -13,4 +13,4 @@ if [[ ! -f "$LINT_SCRIPT" ]]; then
   exit 1
 fi
 
-python3 "$LINT_SCRIPT" --repo "$ROOT_DIR"
+python3 "$LINT_SCRIPT" --repo "$ROOT_DIR" --mode auto
