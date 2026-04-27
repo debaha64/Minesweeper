@@ -17,7 +17,7 @@
 - `python3 -m unittest` — passed, 4 tests.
 - `printf 'q\n' | python3 -m minesweeper` — passed, entrypoint starts and exits cleanly.
 - `BYTEPRESS_ROOT=/home/dmin/code/BytePress scripts/integration-smoke.sh` — passed.
-- `BYTEPRESS_ROOT=/home/dmin/code/BytePress scripts/dev-test.sh` — blocked by current BytePress bootstrap lint expectations after current truth confirmation.
+- `BYTEPRESS_ROOT=/home/dmin/code/BytePress scripts/dev-test.sh` — passed after synchronization with current BytePress; structural check detects `product-developed` mode.
 
 ### Ограничения
 - В среде отсутствует `tkinter`, поэтому первый playable pass реализован как текстовая локальная игра без внешних зависимостей.

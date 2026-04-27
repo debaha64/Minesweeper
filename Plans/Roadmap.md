@@ -50,4 +50,4 @@ ID: ROAD-000002
 Первый предметный pass должен позволить одному локальному игроку запустить игру из репозитория и сыграть партию без внешних зависимостей. Вне границы остаются рекорды, настройки сложности, установщик, графические ассеты, онлайн-режим, сохранения и темы оформления.
 
 ### Итог
-Первый playable pass реализован: `python3 -m minesweeper` запускает локальную текстовую игру, `python3 -m unittest` проходит, integration smoke проходит. Structural `dev-test.sh` запускается, но текущий BytePress lint ожидает bootstrap-only state и конфликтует с подтверждённой current truth.
+Первый playable pass реализован: `python3 -m minesweeper` запускает локальную текстовую игру, `python3 -m unittest` проходит, integration smoke проходит. После синхронизации с актуальным BytePress structural `dev-test.sh` проходит и определяет режим `product-developed`.

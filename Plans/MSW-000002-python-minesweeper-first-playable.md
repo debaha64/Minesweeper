@@ -51,4 +51,4 @@ ID: PLAN-000002
 - `python3 -m unittest` — passed, 4 tests.
 - `printf 'q\n' | python3 -m minesweeper` — passed, entrypoint starts and exits cleanly.
 - `BYTEPRESS_ROOT=/home/dmin/code/BytePress scripts/integration-smoke.sh` — passed.
-- `BYTEPRESS_ROOT=/home/dmin/code/BytePress scripts/dev-test.sh` — blocked by bootstrap-only lint expectations: lint expects `Статус_текущей_истины: Не_подтверждена` and initial planning statuses, which no longer match the confirmed product state.
+- `BYTEPRESS_ROOT=/home/dmin/code/BytePress scripts/dev-test.sh` — passed after synchronization with current BytePress; structural check detects `product-developed` mode.
