@@ -1,0 +1,201 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+from pathlib import Path
+import argparse
+import re
+import sys
+
+ROOT_MARKERS = ["README.md", "AGENTS.md", "Setup_Guide.md"]
+BASE_PATHS = [
+    "Docs/Discovery/README.md",
+    "Docs/Discovery/Interview.md",
+    "Docs/User/README.md",
+    "Docs/User/Operating_Mode.md",
+    "Docs/User/First_Start.md",
+    "Docs/User/Pass_Request.md",
+    "Docs/User/Usage_Scenarios.md",
+    "Docs/Product/README.md",
+    "Docs/Product/Product_Passport.md",
+    "Docs/Product/JTBD.md",
+    "Docs/Product/PRD.md",
+    "Docs/Product/Delivery.md",
+    "Docs/Technical/README.md",
+    "Docs/Technical/Architecture.md",
+    "Docs/Technical/Interfaces.md",
+    "Docs/Technical/System_Invariants.md",
+    "Docs/Terms/README.md",
+    "Docs/Terms/Base_Terms.md",
+    "Plans/README.md",
+    "Plans/Roadmap.md",
+    "Plans/Backlog.md",
+    "Logs/README.md",
+    "Logs/ChangeLog.md",
+    "Logs/ADRlog.md",
+    "Logs/QualityLog.md",
+    "Logs/ReleaseLog.md",
+    "Logs/SupportLog.md",
+    "Pipeline/README.md",
+    "Pipeline/Phases.md",
+    "Pipeline/Workflows.md",
+    "Pipeline/Gates.md",
+    "Tools/README.md",
+    "Tools/product_check.py",
+    "Tools/product_bootstrap_smoke.py",
+    "Templates/README.md",
+    "Templates/Interview.md",
+    "Templates/Roadmap.md",
+    "Templates/Backlog.md",
+    "Templates/Plan.md",
+    "Templates/ChangeLog.md",
+    "Templates/ADRlog.md",
+    "Templates/QualityLog.md",
+    "Schemas/README.md",
+    "Schemas/roadmap_item.schema.json",
+    "Schemas/backlog_item.schema.json",
+    "Schemas/plan.schema.json",
+    "Schemas/changelog_entry.schema.json",
+    "Schemas/adr_entry.schema.json",
+]
+FORBIDDEN_DIRS = ["Adapters", "Memory", "MCP", "Runtime", "Roles", "Skills", "Standards"]
+PLAN_FILE = re.compile(r"^[A-Z]{2,3}-000001-product-initialization\.md$")
+UNCONFIRMED = re.compile(r"^Статус_текущей_истины:\s+Не_подтверждена$", re.MULTILINE)
+CONFIRMED = re.compile(r"^Статус_текущей_истины:\s+Подтверждена$", re.MULTILINE)
+PLACEHOLDER = re.compile(r"^Ответ:\s+Не подтверждено пользователем\.$", re.MULTILINE)
+STATUS = re.compile(r"^Статус:\s+(\S+)$", re.MULTILINE)
+PLAN_ID = re.compile(r"^ID:\s+PLAN-([0-9]{6})$", re.MULTILINE)
+SCHEMA_ID = re.compile(r'^\s*"\$id":\s*"SCH-[0-9]{6}"', re.MULTILINE)
+TEMPLATE_ID = re.compile(r"^<!-- ID:\s+(TPL-[0-9]{6}) -->$", re.MULTILINE)
+
+
+def text(path: Path) -> str:
+    return path.read_text(encoding="utf-8") if path.exists() else ""
+
+
+def contains(path: Path, pattern: re.Pattern[str]) -> bool:
+    return bool(pattern.search(text(path)))
+
+
+def initial_plan(root: Path) -> Path | None:
+    matches = [path for path in (root / "Plans").glob("*.md") if PLAN_FILE.match(path.name)]
+    return matches[0] if matches else None
+
+
+def status_of(path: Path) -> str | None:
+    match = STATUS.search(text(path))
+    return match.group(1) if match else None
+
+
+def section_status(path: Path, artifact_id: str) -> str | None:
+    lines = text(path).splitlines()
+    for index, line in enumerate(lines):
+        if line == f"ID: {artifact_id}":
+            for candidate in lines[index + 1:index + 12]:
+                if candidate.startswith("Статус: "):
+                    return candidate.removeprefix("Статус: ")
+    return None
+
+
+def has_later_plan(root: Path) -> bool:
+    for path in sorted((root / "Plans").glob("*.md")):
+        if path.name in {"README.md", "Roadmap.md", "Backlog.md"}:
+            continue
+        plan_text = text(path)
+        match = PLAN_ID.search(plan_text)
+        if not match:
+            continue
+        if int(match.group(1)) > 1 and status_of(path) in {"В_работе", "Завершено"}:
+            return True
+    return False
+
+
+def detect_mode(root: Path) -> str:
+    interview = root / "Docs" / "Discovery" / "Interview.md"
+    if contains(interview, UNCONFIRMED):
+        return "fresh"
+    if contains(interview, CONFIRMED):
+        return "developed"
+    return "unknown"
+
+
+def check(root: Path, mode: str) -> list[str]:
+    errors: list[str] = []
+    for item in ROOT_MARKERS + BASE_PATHS:
+        if not (root / item).exists():
+            errors.append(f"missing {item}")
+    for item in FORBIDDEN_DIRS:
+        if (root / item).exists():
+            errors.append(f"forbidden placeholder domain present: {item}")
+    for path in sorted((root / "Schemas").glob("*.json")):
+        if not contains(path, SCHEMA_ID):
+            errors.append(f"{path.relative_to(root)}: missing schema ID")
+    template_ids: dict[str, Path] = {}
+    for path in sorted((root / "Templates").glob("*.md")):
+        if path.name == "README.md":
+            continue
+        match = TEMPLATE_ID.search(text(path))
+        if not match:
+            errors.append(f"{path.relative_to(root)}: missing template ID")
+            continue
+        template_id = match.group(1)
+        if template_id in template_ids:
+            errors.append(f"{path.relative_to(root)}: duplicate template ID {template_id}")
+        else:
+            template_ids[template_id] = path
+    if "Tools/.reports/" not in text(root / ".gitignore"):
+        errors.append(".gitignore: missing Tools/.reports/ ignore")
+
+    plan = initial_plan(root)
+    if plan is None:
+        errors.append("missing Plans/<PRODUCT_CODE>-000001-product-initialization.md")
+    actual_mode = detect_mode(root) if mode == "auto" else mode
+    if actual_mode == "unknown":
+        errors.append("Docs/Discovery/Interview.md: cannot detect current-truth lifecycle state")
+    interview = root / "Docs" / "Discovery" / "Interview.md"
+    if actual_mode == "fresh":
+        if not contains(interview, UNCONFIRMED):
+            errors.append("Docs/Discovery/Interview.md: missing unconfirmed current truth")
+        if not contains(interview, PLACEHOLDER):
+            errors.append("Docs/Discovery/Interview.md: missing placeholder answers")
+        if section_status(root / "Plans" / "Roadmap.md", "ROAD-000001") != "В_работе":
+            errors.append("Plans/Roadmap.md: ROAD-000001 must be В_работе in fresh state")
+        if section_status(root / "Plans" / "Backlog.md", "BACK-000001") != "В_работе":
+            errors.append("Plans/Backlog.md: BACK-000001 must be В_работе in fresh state")
+        if plan and status_of(plan) != "В_работе":
+            errors.append(f"{plan.relative_to(root)}: PLAN-000001 must be В_работе in fresh state")
+    elif actual_mode == "developed":
+        if contains(interview, UNCONFIRMED) or contains(interview, PLACEHOLDER):
+            errors.append("Docs/Discovery/Interview.md: developed state keeps fresh placeholders")
+        if section_status(root / "Plans" / "Roadmap.md", "ROAD-000001") != "Завершено":
+            errors.append("Plans/Roadmap.md: ROAD-000001 must be Завершено in developed state")
+        if section_status(root / "Plans" / "Backlog.md", "BACK-000001") != "Завершено":
+            errors.append("Plans/Backlog.md: BACK-000001 must be Завершено in developed state")
+        if plan and status_of(plan) != "Завершено":
+            errors.append(f"{plan.relative_to(root)}: PLAN-000001 must be Завершено in developed state")
+        if not has_later_plan(root):
+            errors.append("Plans/*: developed state needs a later active or completed plan")
+        if "PLAN-000001" not in text(root / "Logs" / "ChangeLog.md"):
+            errors.append("Logs/ChangeLog.md: missing PLAN-000001 closure link")
+        if "PLAN-000001" not in text(root / "Logs" / "QualityLog.md"):
+            errors.append("Logs/QualityLog.md: missing PLAN-000001 check link")
+    return errors
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description="Проверка локального продуктового каркаса.")
+    parser.add_argument("--repo", default=".")
+    parser.add_argument("--mode", choices=["auto", "fresh", "developed"], default="auto")
+    args = parser.parse_args()
+    root = Path(args.repo).resolve()
+    errors = check(root, args.mode)
+    if errors:
+        print("Ошибки продуктового каркаса:")
+        for error in errors:
+            print(f"- {error}")
+        return 1
+    print(f"Локальный продуктовый каркас выглядит полным. Режим: {detect_mode(root) if args.mode == 'auto' else args.mode}.")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
