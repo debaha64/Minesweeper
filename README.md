@@ -1,6 +1,17 @@
 # Minesweeper
 
-Minesweeper — первый пригодный к работе продуктовый репозиторий, созданный `BytePress` bootstrap.
+Minesweeper — локальная настольная игра `Сапёр` на Python.
+
+## Запуск игры
+```bash
+python3 -m minesweeper
+```
+
+## Проверка
+```bash
+python3 -m unittest
+python3 Tools/product_check.py --repo . --mode auto
+```
 
 `README.md` — карта для человека.
 `AGENTS.md` — карта для агента.
@@ -8,7 +19,7 @@ Minesweeper — первый пригодный к работе продукто
 ## Стартовый маршрут
 1. Прочитать `Docs/User/First_Start.md`.
 2. Прочитать `Docs/Terms/Base_Terms.md`.
-3. Прочитать `Docs/Discovery/Interview.md` и подтвердить текущую истину ответами пользователя.
+3. Прочитать `Docs/Discovery/Interview.md` и проверить подтверждённую текущую истину.
 4. Подготовить среду по `Setup_Guide.md`.
 5. Проверить текущие этап, задачу и план в `Plans/*`.
 6. Использовать `Tools/product_check.py`, если нужна структурная проверка продукта.

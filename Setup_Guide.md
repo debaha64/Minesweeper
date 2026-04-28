@@ -23,3 +23,13 @@ git checkout -b feat/000001-confirm-current-truth
 - smoke check выполняется локально: `python3 Tools/product_bootstrap_smoke.py`;
 - переходные `scripts/*` можно использовать только как оболочки к этим локальным tools;
 - report artifacts пишутся в `Tools/.reports/` и не входят в baseline commit.
+
+## Запуск игры
+```bash
+python3 -m minesweeper
+```
+
+## Локальные тесты
+```bash
+python3 -m unittest
+```
