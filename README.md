@@ -1,6 +1,6 @@
 # Minesweeper
 
-Minesweeper — first-usable replicated product repo, materialized by `BytePress` bootstrap.
+Minesweeper — первый пригодный к работе продуктовый репозиторий, созданный `BytePress` bootstrap.
 
 `README.md` — карта для человека.
 `AGENTS.md` — карта для агента.
@@ -8,19 +8,22 @@ Minesweeper — first-usable replicated product repo, materialized by `BytePress
 ## Стартовый маршрут
 1. Прочитать `Docs/User/First_Start.md`.
 2. Прочитать `Docs/Terms/Base_Terms.md`.
-3. Прочитать `Docs/Discovery/Interview.md` и подтвердить current truth ответами пользователя.
+3. Прочитать `Docs/Discovery/Interview.md` и подтвердить текущую истину ответами пользователя.
 4. Подготовить среду по `Setup_Guide.md`.
-5. Проверить current stage/task/pass в `Plans/*`.
-6. Использовать `scripts/dev-test.sh`, если нужен structural check через `BytePress`.
-7. Использовать `scripts/reset-product-start.sh`, если ранний product-start сорвался и нужен cleanup route.
-8. Использовать `scripts/integration-smoke.sh`, если нужен minimal integration handoff check.
+5. Проверить текущие этап, задачу и план в `Plans/*`.
+6. Использовать `Tools/product_check.py`, если нужна структурная проверка продукта.
+7. Использовать `Tools/product_bootstrap_smoke.py`, если нужен локальный smoke-маршрут.
+8. Использовать `scripts/*` только как совместимые оболочки к локальному `Tools/*`.
 
 ## Доменная карта
-- `Docs/Discovery/*` — current-truth и интервью продукта.
-- `Docs/User/*` — human-facing layer продукта.
+- `Docs/Discovery/*` — текущая истина и интервью продукта.
+- `Docs/User/*` — пользовательский слой продукта.
 - `Docs/Product/*` — прикладная рамка продукта.
-- `Docs/Technical/*` — стартовый technical contour продукта.
-- `Plans/*` — current roadmap, backlog и current plan продукта.
-- `Logs/*` — факты, изменения и quality evidence продукта.
-- `Adapters/*` — модельный contour продукта.
-- `scripts/*` — project entry scripts.
+- `Docs/Technical/*` — стартовый технический контур продукта.
+- `Plans/*` — дорожная карта, реестр работ и текущий план продукта.
+- `Logs/*` — факты, изменения и доказательства качества продукта.
+- `Pipeline/*` — лёгкий локальный процессный контур продукта.
+- `Tools/*` — локальные проверки и служебные команды продукта.
+- `Templates/*` — шаблоны только для созданных артефактов.
+- `Schemas/*` — схемы только для проверяемых артефактов.
+- `scripts/*` — переходные shell-оболочки к `Tools/*`.

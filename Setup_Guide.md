@@ -17,11 +17,9 @@ git checkout -b feat/000001-confirm-current-truth
 ```
 
 ## Проверка
-- первый product-start pass остаётся discovery-only, пока пользователь не подтвердил `Docs/Discovery/Interview.md`;
-- первый writable action, включая `Docs/Discovery/*`, `Plans/*` и `Logs/*`, допускается только после открытия task-ветки;
-- для structural и integration smoke checks replicated repo установить `BYTEPRESS_ROOT` на путь к исходному `BytePress`;
-- затем из корня продукта выполнить `BYTEPRESS_ROOT=/path/to/BytePress scripts/dev-test.sh`;
-- если ранний product-start сорвался, выполнить `scripts/reset-product-start.sh` и прочитать его drift report;
-- при проверке controlled integration contour выполнить `BYTEPRESS_ROOT=/path/to/BytePress scripts/integration-smoke.sh`;
-- report artifact integration smoke будет записан в `Runtime/Integration_Smoke_Report.json` как runtime-local файл;
-- baseline commit generated repo не должен содержать этот artifact по умолчанию; если текущий pass явно сохраняет smoke evidence в Git, это решение должно быть зафиксировано в current `Plan` и итоговом отчёте.
+- первый product-start pass остаётся только аналитическим, пока пользователь не подтвердил `Docs/Discovery/Interview.md`;
+- первое записываемое действие, включая `Docs/Discovery/*`, `Plans/*` и `Logs/*`, допускается только после открытия task-ветки;
+- structural check выполняется локально: `python3 Tools/product_check.py --repo . --mode auto`;
+- smoke check выполняется локально: `python3 Tools/product_bootstrap_smoke.py`;
+- переходные `scripts/*` можно использовать только как оболочки к этим локальным tools;
+- report artifacts пишутся в `Tools/.reports/` и не входят в baseline commit.

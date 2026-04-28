@@ -3,12 +3,12 @@
 ## Первый маршрут
 1. Прочитать `../../README.md`.
 2. Прочитать `Operating_Mode.md`.
-3. Прочитать `../../Setup_Guide.md` и открыть task-ветку до первого writable action.
-4. Проверить current stage/task/pass в `../../Plans/*`.
-5. Прочитать `../Discovery/Interview.md` и только после task-ветки ответить на вопросы, которые подтверждают current truth.
-6. Из корня продукта выполнить `BYTEPRESS_ROOT=/path/to/BytePress scripts/dev-test.sh`.
-7. Если ранний product-start сорвался, выполнить `../../scripts/reset-product-start.sh`.
+3. Прочитать `../../Setup_Guide.md` и открыть task-ветку до первого записываемого действия.
+4. Проверить текущие этап, задачу и план в `../../Plans/*`.
+5. Прочитать `../Discovery/Interview.md` и только после task-ветки ответить на вопросы, которые подтверждают текущую истину.
+6. Из корня продукта выполнить `python3 Tools/product_check.py --repo . --mode auto`.
+7. Если нужен локальный smoke, выполнить `python3 Tools/product_bootstrap_smoke.py`.
 
 ## Что дальше
 - если нужен новый pass: `Pass_Request.md`;
-- если нужен agent execution route: `../../AGENTS.md`.
+- если нужен маршрут исполнения агентом: `../../AGENTS.md`.

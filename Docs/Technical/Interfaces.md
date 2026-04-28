@@ -1,8 +1,8 @@
 # Interfaces
 
 ## Стартовые интерфейсы
-- human entry: `README.md`, `Docs/User/*`, `Setup_Guide.md`;
-- agent entry: `AGENTS.md`;
-- planning entry: `Plans/*`;
-- structural check route: `scripts/dev-test.sh` с `BYTEPRESS_ROOT`;
-- integration smoke route: `scripts/integration-smoke.sh` с `BYTEPRESS_ROOT`.
+- пользовательский вход: `README.md`, `Docs/User/*`, `Setup_Guide.md`;
+- агентный вход: `AGENTS.md`;
+- плановый вход: `Plans/*`;
+- маршрут структурной проверки: `Tools/product_check.py`;
+- маршрут local smoke: `Tools/product_bootstrap_smoke.py`.

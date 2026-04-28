@@ -1,14 +1,14 @@
 # User
 
-`Docs/User/*` — канонический human-facing layer replicated product repo.
+`Docs/User/*` — пользовательский слой продуктового репозитория.
 
 ## Состав
-- `README.md` — карта user-layer.
-- `Operating_Mode.md` — human operating mode продукта.
+- `README.md` — карта пользовательского слоя.
+- `Operating_Mode.md` — режим работы человека с продуктом.
 - `First_Start.md` — первый маршрут входа.
 - `Pass_Request.md` — как формулировать pass для агента.
 - `Usage_Scenarios.md` — базовые сценарии использования.
 
 ## Границы
-- user-layer не дублирует `AGENTS.md`, `Setup_Guide.md` и `Docs/Technical/*`;
-- user-layer направляет к owner-documents replicated product repo.
+- пользовательский слой не дублирует `AGENTS.md`, `Setup_Guide.md` и `Docs/Technical/*`;
+- пользовательский слой направляет к документам-владельцам продуктового репозитория.

@@ -5,4 +5,4 @@ __pycache__/
 .venv/
 .codex
 .codex/
-Runtime/Integration_Smoke_Report.json
+Tools/.reports/

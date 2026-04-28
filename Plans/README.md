@@ -1,8 +1,8 @@
 # Plans
 
-`Plans/*` хранит current stage/task/pass replicated product repo.
+`Plans/*` хранит текущие этап, задачу и план продуктового репозитория.
 
 ## Состав
-- `Roadmap.md` — stages продукта.
-- `Backlog.md` — active backlog текущего stage.
-- `Plans/MSW-000001-product-initialization.md` — current plan продукта.
+- `Roadmap.md` — этапы продукта.
+- `Backlog.md` — активный реестр работ текущего этапа.
+- `Plans/MSW-000001-product-initialization.md` — текущий план продукта.

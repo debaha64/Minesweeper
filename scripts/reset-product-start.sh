@@ -2,12 +2,12 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-REPORT_PATH="$ROOT_DIR/Runtime/Integration_Smoke_Report.json"
-if [[ -f "$REPORT_PATH" ]]; then
-  rm -f "$REPORT_PATH"
-  echo "Removed runtime-local smoke artifact: $REPORT_PATH"
+REPORT_DIR="$ROOT_DIR/Tools/.reports"
+if [[ -d "$REPORT_DIR" ]]; then
+  rm -rf "$REPORT_DIR"
+  echo "Removed local tool reports: $REPORT_DIR"
 else
-  echo "No runtime-local smoke artifact to remove."
+  echo "No local tool reports to remove."
 fi
 
 if ! command -v git >/dev/null 2>&1; then
@@ -17,7 +17,7 @@ fi
 
 cd "$ROOT_DIR"
 if ! git rev-parse --show-toplevel >/dev/null 2>&1; then
-  echo "Runtime cleanup completed. Git repository is not initialized yet, so tracked drift was not inspected."
+  echo "Tool report cleanup completed. Git repository is not initialized yet, so tracked drift was not inspected."
   exit 0
 fi
 
@@ -34,7 +34,7 @@ printf '%s
 OUT_OF_GATE="$(printf '%s
 ' "$STATUS_OUTPUT" | awk '{print $2}' | grep -Ev '^(Docs/Discovery/|Plans/|Logs/)' || true)"
 if [[ -n "$OUT_OF_GATE" ]]; then
-  echo "Tracked or untracked drift exists outside the early discovery-only contour:"
+  echo "Tracked or untracked drift exists outside the early analytical contour:"
   printf '%s
 ' "$OUT_OF_GATE"
   echo "Canonical reset route: discard this repo and materialize a fresh target with BytePress bootstrap."

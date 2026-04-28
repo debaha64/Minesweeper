@@ -1,14 +1,14 @@
 # Operating Mode
 
 ## Назначение
-Этот документ фиксирует human operating mode продукта.
+Этот документ фиксирует режим работы человека с продуктом.
 
 ## Базовый режим
-- человек формулирует scope и expected outcome pass;
-- агент исполняет pass внутри contracts продукта;
-- current stage/task/pass читаются из `../../Plans/*`.
+- человек формулирует scope и ожидаемый outcome pass;
+- агент исполняет pass внутри договоров продукта;
+- текущие этап, задача и план читаются из `../../Plans/*`.
 
 ## Куда идти дальше
-- current planning-state: `../../Plans/README.md`;
-- agent route: `../../AGENTS.md`;
-- setup и checks: `../../Setup_Guide.md`.
+- текущее состояние планирования: `../../Plans/README.md`;
+- маршрут агента: `../../AGENTS.md`;
+- настройка и проверки: `../../Setup_Guide.md`.
