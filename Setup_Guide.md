@@ -4,6 +4,7 @@
 - Linux или WSL
 - Git
 - Python 3.11+
+- Tkinter для запуска desktop-окна
 
 ## Рабочий каталог
 - Репозиторий продукта располагается отдельно от BytePress.
@@ -13,12 +14,18 @@
 git init -b develop
 git add .
 git commit -m "Bootstrap baseline"
-git checkout -b feat/000001-confirm-current-truth
+git checkout -b feature/000001-confirm-current-truth
+```
+
+## Запуск игры
+```bash
+python3 -m minesweeper
 ```
 
 ## Проверка
-- первый product-start pass остаётся только аналитическим, пока пользователь не подтвердил `Docs/Discovery/Interview.md`;
-- первое записываемое действие, включая `Docs/Discovery/*`, `Plans/*` и `Logs/*`, допускается только после открытия task-ветки;
+- текущая истина подтверждена в `Docs/Discovery/Interview.md`;
+- каждый записываемый pass начинается после открытия task-ветки;
+- логика проверяется командой `python3 -m unittest discover`;
 - structural check выполняется локально: `python3 Tools/product_check.py --repo . --mode auto`;
 - smoke check выполняется локально: `python3 Tools/product_bootstrap_smoke.py`;
 - переходные `scripts/*` можно использовать только как оболочки к этим локальным tools;

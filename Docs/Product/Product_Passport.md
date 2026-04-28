@@ -1,21 +1,8 @@
-# Product Passport — Minesweeper
+# Product Passport
 
-## Назначение
+`Minesweeper` — локальная настольная игра `Сапёр` на Python.
 
-Паспорт фиксирует минимальные параметры созданного каркаса без возвращения домена `Profiles/*` в продукт.
-
----
-
-Название: Minesweeper
-Код_продукта: MSW
-Брендовый_профиль: Default
-Язык_взаимодействия: ru-RU
-Пакеты_каркаса:
-- Docs
-- Plans
-- Logs
-- Pipeline
-- Tools
-- Templates
-- Schemas
-- scripts compatibility wrappers
+## Состояние
+- Текущая истина подтверждена.
+- Активный предметный pass: `PLAN-000002`.
+- Первая версия строится вокруг одиночной desktop-партии.
