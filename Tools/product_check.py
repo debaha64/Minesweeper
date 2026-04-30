@@ -58,6 +58,12 @@ BASE_PATHS = [
     "Schemas/adr_entry.schema.json",
 ]
 FORBIDDEN_DIRS = ["Adapters", "Memory", "MCP", "Runtime", "Roles", "Skills", "Standards"]
+PIPELINE_GH_ROUTE = re.compile(r"gh pr create|PR.+через `gh`|через gh", re.IGNORECASE)
+PIPELINE_CHECK_LEVELS = re.compile(r"Структура|Тесты|GUI-запуск|Ручная проверка", re.IGNORECASE)
+AGENTS_PIPELINE_ROUTE = re.compile(r"Pipeline/Workflows\.md|Pipeline/\*", re.IGNORECASE)
+AGENTS_START_REPORT = [re.compile(pattern, re.IGNORECASE) for pattern in [r"Фаза:", r"Рабочий поток:", r"Гейт:"]]
+INTERVIEW_NO_GUESSES = re.compile(r"не равен.*подтвержден|не считается.*подтвержден|догадк|гипотез", re.IGNORECASE)
+INTERVIEW_DEPENDENCIES = re.compile(r"стек|зависимост|GUI|tkinter", re.IGNORECASE)
 PLAN_FILE = re.compile(r"^[A-Z]{2,3}-000001-product-initialization\.md$")
 UNCONFIRMED = re.compile(r"^Статус_текущей_истины:\s+Не_подтверждена$", re.MULTILINE)
 CONFIRMED = re.compile(r"^Статус_текущей_истины:\s+Подтверждена$", re.MULTILINE)
@@ -144,6 +150,17 @@ def check(root: Path, mode: str) -> list[str]:
             template_ids[template_id] = path
     if "Tools/.reports/" not in text(root / ".gitignore"):
         errors.append(".gitignore: missing Tools/.reports/ ignore")
+    agents_text = text(root / "AGENTS.md")
+    if not AGENTS_PIPELINE_ROUTE.search(agents_text):
+        errors.append("AGENTS.md: missing Pipeline route")
+    for pattern in AGENTS_START_REPORT:
+        if not pattern.search(agents_text):
+            errors.append("AGENTS.md: missing phase/workflow/gate in startup report")
+    workflows = root / "Pipeline" / "Workflows.md"
+    if not PIPELINE_GH_ROUTE.search(text(workflows)):
+        errors.append("Pipeline/Workflows.md: missing PR route through gh")
+    if not PIPELINE_CHECK_LEVELS.search(text(workflows)):
+        errors.append("Pipeline/Workflows.md: missing check levels")
 
     plan = initial_plan(root)
     if plan is None:
@@ -152,6 +169,10 @@ def check(root: Path, mode: str) -> list[str]:
     if actual_mode == "unknown":
         errors.append("Docs/Discovery/Interview.md: cannot detect current-truth lifecycle state")
     interview = root / "Docs" / "Discovery" / "Interview.md"
+    if not INTERVIEW_NO_GUESSES.search(text(interview)):
+        errors.append("Docs/Discovery/Interview.md: missing ban on guessed current-truth confirmation")
+    if not INTERVIEW_DEPENDENCIES.search(text(interview)):
+        errors.append("Docs/Discovery/Interview.md: missing stack/dependency source discipline")
     if actual_mode == "fresh":
         if not contains(interview, UNCONFIRMED):
             errors.append("Docs/Discovery/Interview.md: missing unconfirmed current truth")
