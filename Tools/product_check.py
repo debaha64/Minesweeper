@@ -61,12 +61,23 @@ BASE_PATHS = [
 FORBIDDEN_DIRS = ["Adapters", "Memory", "MCP", "Runtime", "Roles", "Skills", "Standards"]
 PIPELINE_GH_ROUTE = re.compile(r"gh pr create|PR.+через `gh`|через gh", re.IGNORECASE)
 PIPELINE_CHECK_LEVELS = re.compile(r"Структура|Тесты|GUI-запуск|Ручная проверка", re.IGNORECASE)
+PIPELINE_ENGLISH_NAMES = re.compile(r"Discovery confirmation|First product-start|Current truth gate|Execution|Subject pass|Implementation gate")
+PIPELINE_RUSSIAN_NAMES = [
+    "Подтверждение текущей истины",
+    "Первый старт продукта",
+    "Гейт текущей истины",
+    "Реализация",
+    "Предметный проход",
+    "Гейт реализации",
+]
 AGENTS_PIPELINE_ROUTE = re.compile(r"Pipeline/Workflows\.md|Pipeline/\*", re.IGNORECASE)
 AGENTS_START_REPORT = [re.compile(pattern, re.IGNORECASE) for pattern in [r"Фаза:", r"Рабочий поток:", r"Гейт:"]]
 INTERVIEW_NO_GUESSES = re.compile(r"не равен.*подтвержден|не считается.*подтвержден|догадк|гипотез", re.IGNORECASE)
 INTERVIEW_DEPENDENCIES = re.compile(r"стек|зависимост|GUI|tkinter", re.IGNORECASE)
+INTERVIEW_NO_TIMER_SCOPE = re.compile(r"таймер|timer", re.IGNORECASE)
 PLAN_FILE = re.compile(r"^[A-Z]{2,3}-000001-product-initialization\.md$")
 TASK_BRANCH_NAME = re.compile(r"^(chore|feature|fix|docs)/[0-9]{6}-[a-z0-9]+(?:-[a-z0-9]+)*$")
+FIRST_ANALYTIC_BRANCH = re.compile(r"^chore/[0-9]{6}-[a-z0-9]+(?:-[a-z0-9]+)*$")
 UNCONFIRMED = re.compile(r"^Статус_текущей_истины:\s+Не_подтверждена$", re.MULTILINE)
 CONFIRMED = re.compile(r"^Статус_текущей_истины:\s+Подтверждена$", re.MULTILINE)
 PLACEHOLDER = re.compile(r"^Ответ:\s+Не подтверждено пользователем\.$", re.MULTILINE)
@@ -177,6 +188,12 @@ def check(root: Path, mode: str) -> list[str]:
         errors.append("Pipeline/Workflows.md: missing PR route through gh")
     if not PIPELINE_CHECK_LEVELS.search(text(workflows)):
         errors.append("Pipeline/Workflows.md: missing check levels")
+    pipeline_text = text(root / "Pipeline" / "Workflows.md") + "\n" + text(root / "Pipeline" / "Phases.md") + "\n" + text(root / "Pipeline" / "Gates.md")
+    if PIPELINE_ENGLISH_NAMES.search(pipeline_text):
+        errors.append("Pipeline/*: phase, workflow and gate names must use Russian canonical names")
+    for marker in PIPELINE_RUSSIAN_NAMES:
+        if marker not in pipeline_text:
+            errors.append(f"Pipeline/*: missing Russian marker `{marker}`")
 
     plan = initial_plan(root)
     if plan is None:
@@ -189,6 +206,8 @@ def check(root: Path, mode: str) -> list[str]:
         errors.append("Docs/Discovery/Interview.md: missing ban on guessed current-truth confirmation")
     if not INTERVIEW_DEPENDENCIES.search(text(interview)):
         errors.append("Docs/Discovery/Interview.md: missing stack/dependency source discipline")
+    if INTERVIEW_NO_TIMER_SCOPE.search(text(interview)):
+        errors.append("Docs/Discovery/Interview.md: must not suggest timer or unrequested first-version expansion")
     if actual_mode == "fresh":
         if not contains(interview, UNCONFIRMED):
             errors.append("Docs/Discovery/Interview.md: missing unconfirmed current truth")
@@ -201,8 +220,8 @@ def check(root: Path, mode: str) -> list[str]:
         if plan and status_of(plan) != "В_работе":
             errors.append(f"{plan.relative_to(root)}: PLAN-000001 must be В_работе in fresh state")
         current_branch = git_branch(root)
-        if current_branch and (current_branch in {"develop", "main"} or not TASK_BRANCH_NAME.fullmatch(current_branch)):
-            errors.append("git branch: fresh product-start must use chore/, feature/, fix/ or docs/ task branch")
+        if current_branch and (current_branch in {"develop", "main"} or not FIRST_ANALYTIC_BRANCH.fullmatch(current_branch)):
+            errors.append("git branch: first analytical product-start must use a chore/ task branch")
     elif actual_mode == "developed":
         if contains(interview, UNCONFIRMED) or contains(interview, PLACEHOLDER):
             errors.append("Docs/Discovery/Interview.md: developed state keeps fresh placeholders")

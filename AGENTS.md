@@ -42,7 +42,8 @@
 - Сначала прочитать `Plans/Roadmap.md`, `Plans/Backlog.md` и current `Plan`.
 - Затем прочитать `Docs/Terms/Base_Terms.md` и `Docs/Discovery/Interview.md`.
 - Затем прочитать `Pipeline/Workflows.md` и назвать текущие фазу, рабочий поток и гейт.
-- Первый проход с правками начинать только после открытия task-ветки с типом `chore/`, `feature/`, `fix/` или `docs/`.
+- Первый аналитический проход с правками начинать только после открытия task-ветки с типом `chore/`.
+- `docs/` использовать только для обычных документационных проходов после снятия стартового гейта.
 - Для structural check использовать `python3 Tools/product_check.py --repo . --mode auto`.
 - Для локального smoke использовать `python3 Tools/product_bootstrap_smoke.py`.
 - `scripts/*` остаются только переходными оболочками к локальному `Tools/*`.
