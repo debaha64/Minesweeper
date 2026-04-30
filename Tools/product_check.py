@@ -4,6 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 import argparse
 import re
+import subprocess
 import sys
 
 ROOT_MARKERS = ["README.md", "AGENTS.md", "Setup_Guide.md"]
@@ -65,6 +66,7 @@ AGENTS_START_REPORT = [re.compile(pattern, re.IGNORECASE) for pattern in [r"Фа
 INTERVIEW_NO_GUESSES = re.compile(r"не равен.*подтвержден|не считается.*подтвержден|догадк|гипотез", re.IGNORECASE)
 INTERVIEW_DEPENDENCIES = re.compile(r"стек|зависимост|GUI|tkinter", re.IGNORECASE)
 PLAN_FILE = re.compile(r"^[A-Z]{2,3}-000001-product-initialization\.md$")
+TASK_BRANCH_NAME = re.compile(r"^(chore|feature|fix|docs)/[0-9]{6}-[a-z0-9]+(?:-[a-z0-9]+)*$")
 UNCONFIRMED = re.compile(r"^Статус_текущей_истины:\s+Не_подтверждена$", re.MULTILINE)
 CONFIRMED = re.compile(r"^Статус_текущей_истины:\s+Подтверждена$", re.MULTILINE)
 PLACEHOLDER = re.compile(r"^Ответ:\s+Не подтверждено пользователем\.$", re.MULTILINE)
@@ -124,6 +126,20 @@ def detect_mode(root: Path) -> str:
     return "unknown"
 
 
+def git_branch(root: Path) -> str | None:
+    try:
+        result = subprocess.run(
+            ["git", "-C", str(root), "branch", "--show-current"],
+            check=True,
+            capture_output=True,
+            text=True,
+        )
+    except (FileNotFoundError, subprocess.CalledProcessError):
+        return None
+    branch = result.stdout.strip()
+    return branch or None
+
+
 def check(root: Path, mode: str) -> list[str]:
     errors: list[str] = []
     for item in ROOT_MARKERS + BASE_PATHS:
@@ -155,7 +171,7 @@ def check(root: Path, mode: str) -> list[str]:
         errors.append("AGENTS.md: missing Pipeline route")
     for pattern in AGENTS_START_REPORT:
         if not pattern.search(agents_text):
-            errors.append("AGENTS.md: missing phase/workflow/gate in startup report")
+            errors.append("AGENTS.md: в стартовом отчёте нет фазы, рабочего потока или гейта")
     workflows = root / "Pipeline" / "Workflows.md"
     if not PIPELINE_GH_ROUTE.search(text(workflows)):
         errors.append("Pipeline/Workflows.md: missing PR route through gh")
@@ -184,6 +200,9 @@ def check(root: Path, mode: str) -> list[str]:
             errors.append("Plans/Backlog.md: BACK-000001 must be В_работе in fresh state")
         if plan and status_of(plan) != "В_работе":
             errors.append(f"{plan.relative_to(root)}: PLAN-000001 must be В_работе in fresh state")
+        current_branch = git_branch(root)
+        if current_branch and (current_branch in {"develop", "main"} or not TASK_BRANCH_NAME.fullmatch(current_branch)):
+            errors.append("git branch: fresh product-start must use chore/, feature/, fix/ or docs/ task branch")
     elif actual_mode == "developed":
         if contains(interview, UNCONFIRMED) or contains(interview, PLACEHOLDER):
             errors.append("Docs/Discovery/Interview.md: developed state keeps fresh placeholders")
