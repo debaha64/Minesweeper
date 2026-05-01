@@ -74,7 +74,10 @@ AGENTS_PIPELINE_ROUTE = re.compile(r"Pipeline/Workflows\.md|Pipeline/\*", re.IGN
 AGENTS_START_REPORT = [re.compile(pattern, re.IGNORECASE) for pattern in [r"Фаза:", r"Рабочий поток:", r"Гейт:"]]
 INTERVIEW_NO_GUESSES = re.compile(r"не равен.*подтвержден|не считается.*подтвержден|догадк|гипотез", re.IGNORECASE)
 INTERVIEW_DEPENDENCIES = re.compile(r"стек|зависимост|GUI|tkinter", re.IGNORECASE)
-INTERVIEW_NO_TIMER_SCOPE = re.compile(r"таймер|timer", re.IGNORECASE)
+INTERVIEW_UNCONFIRMED_EXPANSION = re.compile(
+    r"таймер|timer|сч[её]тчик|counter|рекорд|record|настройк|settings|сохранени|save|установщик|installer",
+    re.IGNORECASE,
+)
 PLAN_FILE = re.compile(r"^[A-Z]{2,3}-000001-product-initialization\.md$")
 TASK_BRANCH_NAME = re.compile(r"^(chore|feature|fix|docs)/[0-9]{6}-[a-z0-9]+(?:-[a-z0-9]+)*$")
 FIRST_ANALYTIC_BRANCH = re.compile(r"^chore/[0-9]{6}-[a-z0-9]+(?:-[a-z0-9]+)*$")
@@ -206,8 +209,8 @@ def check(root: Path, mode: str) -> list[str]:
         errors.append("Docs/Discovery/Interview.md: missing ban on guessed current-truth confirmation")
     if not INTERVIEW_DEPENDENCIES.search(text(interview)):
         errors.append("Docs/Discovery/Interview.md: missing stack/dependency source discipline")
-    if INTERVIEW_NO_TIMER_SCOPE.search(text(interview)):
-        errors.append("Docs/Discovery/Interview.md: must not suggest timer or unrequested first-version expansion")
+    if INTERVIEW_UNCONFIRMED_EXPANSION.search(text(interview)):
+        errors.append("Docs/Discovery/Interview.md: must not suggest unconfirmed first-version expansion examples")
     if actual_mode == "fresh":
         if not contains(interview, UNCONFIRMED):
             errors.append("Docs/Discovery/Interview.md: missing unconfirmed current truth")
@@ -221,7 +224,7 @@ def check(root: Path, mode: str) -> list[str]:
             errors.append(f"{plan.relative_to(root)}: PLAN-000001 must be В_работе in fresh state")
         current_branch = git_branch(root)
         if current_branch and (current_branch in {"develop", "main"} or not FIRST_ANALYTIC_BRANCH.fullmatch(current_branch)):
-            errors.append("git branch: first analytical product-start must use a chore/ task branch")
+            errors.append("git branch: first analytical product-start must use a chore/ working branch")
     elif actual_mode == "developed":
         if contains(interview, UNCONFIRMED) or contains(interview, PLACEHOLDER):
             errors.append("Docs/Discovery/Interview.md: developed state keeps fresh placeholders")
