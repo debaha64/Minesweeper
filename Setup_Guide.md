@@ -22,5 +22,5 @@ git checkout -b chore/000001-confirm-current-truth
 - `docs/` используется только для обычных документационных проходов после снятия стартового гейта;
 - structural check выполняется локально: `python3 Tools/product_check.py --repo . --mode auto`;
 - smoke check выполняется локально: `python3 Tools/product_bootstrap_smoke.py`;
-- переходные `scripts/*` можно использовать только как оболочки к этим локальным tools;
+- переходные `scripts/*` можно использовать только как оболочки к локальным `Tools/*`; после обновления служебного слоя `scripts/*` можно удалить;
 - report artifacts пишутся в `Tools/.reports/` и не входят в baseline commit.
