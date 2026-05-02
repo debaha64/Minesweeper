@@ -5,4 +5,5 @@
 ## Состав
 - `Roadmap.md` — этапы продукта.
 - `Backlog.md` — активный реестр работ текущего этапа.
-- `Plans/MSW-000001-product-initialization.md` — текущий план продукта.
+- `Plans/MSW-000001-product-initialization.md` — завершённый план инициализации продукта.
+- `Plans/MSW-000002-minesweeper-logic.md` — текущий план продукта.
