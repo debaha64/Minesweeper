@@ -32,6 +32,7 @@ class SotModeTests(unittest.TestCase):
             repo,
             ignore=shutil.ignore_patterns(".git", "__pycache__", "*.pyc", "*.pyo"),
         )
+        self.set_config(repo, "sot_files")
         return repo
 
     def set_config(self, repo, mode, repositories=()):
