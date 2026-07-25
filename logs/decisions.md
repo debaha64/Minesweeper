@@ -13,8 +13,8 @@ SOT_FROM: sot_files
 SOT_TO: sot_git
 ROUTE_REF: BACK-000001
 ALLOWED_ACTIONS: change AGENTS.md SOT_MODE,create local baseline,create transition checkpoint,verify local repository
-PREVIOUS_STATUS: none
-STATUS: active
+PREVIOUS_STATUS: active
+STATUS: applied
 SOURCE_KIND: owner_response
 SOURCE_REF: codexlog:.codex/codex-20260726-011410.raw.log#lines=163-164
 

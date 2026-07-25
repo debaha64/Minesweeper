@@ -10,6 +10,6 @@
 | DoDs | `docs/product/dods.md` |
 | Владелец решения | владелец продукта |
 | Хранение данных | отсутствует; поле живёт только во время выполнения команды |
-| Режим SoT | `sot_files`; Git полностью вне текущего discovery |
+| Режим SoT | `sot_git`; локальный repository без remote |
 | Product paths будущей реализации | `README.md`, `src/minesweeper.py`, `tests/test_minesweeper.py` |
 | Граница приёмки | отдельное решение владельца |

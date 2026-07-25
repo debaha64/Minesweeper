@@ -4,7 +4,7 @@
 
 Короткая карта агента для BytePress Harness.
 
-SOT_MODE: sot_files
+SOT_MODE: sot_git
 
 `AGENTS.md` — единственное место machine-readable конфигурации устойчивого режима. Условное поле `SOT_GITHUB_REPOSITORY` существует только в `sot_github`; полный контракт режимов и переходов находится в [sops/sot.md](sops/sot.md).
 

@@ -8,17 +8,17 @@
 
 Product Unit: Minesweeper
 
-Фаза SDLC: planning
+Фаза SDLC: approval
 Операционный режим: product-work
 INTERVIEW_EVIDENCE_REF: IE-000001
 OWNER_DECISION_REFS: OD-000001,OD-000002
 PRODUCT_ACCEPTANCE_REF: none
-ALLOWED_SURFACES: AGENTS.md::SOT_MODE,.git/**,docs/product/**,plans/active/PLAN-000001-product-discovery.md,logs/sessions.md,logs/decisions.md,logs/changes.md,logs/risks.md,logs/quality.md
-Маршрут решений: PRODUCT_INPUT -> verified discovery -> owner-approved sot_files-to-sot_git transition -> отдельное решение владельца о реализации
-Граница решения владельца: разрешены только локальный переход SoT и один local_git_route; product paths, реализация и внешние действия запрещены
+ALLOWED_SURFACES: .git/**,plans/active/PLAN-000001-product-discovery.md,logs/decisions.md,logs/changes.md,logs/quality.md
+Маршрут решений: PRODUCT_INPUT -> verified discovery -> verified sot_files-to-sot_git transition -> GATE-GITHUB-BOOTSTRAP
+Граница решения владельца: локальный переход завершён; до отдельного GATE-GITHUB-BOOTSTRAP product paths, реализация, remote и внешние действия запрещены
 
 Роли: researcher -> architect -> verifier
-Gate: owner-approved-transition
+Gate: owner-decision-required
 
 ## Цель
 
@@ -30,8 +30,7 @@ Gate: owner-approved-transition
 2. Обновить discovery-документы в `docs/product/`.
 3. Зафиксировать риски, факты изменений и результаты локальных проверок в разрешённых журналах.
 4. Проверить существующий baseline, discovery-контур и локальные ссылки без Git и внешних действий.
-5. Создать или квалифицировать локальный repository без remote, зафиксировать локальный baseline и единый transition checkpoint.
-6. Изменить только `AGENTS.md::SOT_MODE` с `sot_files` на `sot_git` после разрешения `OD-000001`.
+5. Зафиксировать завершённый локальный transition checkpoint и результаты его проверки.
 
 ## Запрещено
 
@@ -48,7 +47,17 @@ Gate: owner-approved-transition
 5. `bp_check.py` проходит с `0 fail, 0 warn`.
 6. `sot_git` имеет exact root, valid `HEAD`, ветку `main`, clean tree и remote absent.
 7. `OD-000001` применён, `OD-000002` остаётся единственной active route-записью для `BACK-000001`.
-8. После transition checkpoint работа останавливается на отдельном owner gate реализации.
+8. После transition checkpoint работа останавливается перед отдельным `GATE-GITHUB-BOOTSTRAP`.
+
+## Transition checkpoint
+
+- BASELINE_COMMIT: `4a649dbe77768f11d194cc71b431162c0a651882`
+- SOT_TRANSITION: `sot_files -> sot_git`
+- TRANSITION_DECISION: `OD-000001` (`applied`)
+- LOCAL_GIT_ROUTE: `OD-000002` (`active`)
+- PRODUCT_PATHS: unchanged
+- REMOTE_AND_EXTERNAL_ACTIONS: not performed
+- NEXT_GATE: `GATE-GITHUB-BOOTSTRAP`
 
 ## Блокер
 
