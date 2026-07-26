@@ -39,3 +39,22 @@ SOURCE_REF: codexlog:.codex/codex-20260726-023743.raw.log#lines=441-488
 - Blocker: none.
 - Остаточные риски: `RISK-000001` и `RISK-000002` остаются open до реализации и проверки.
 - Следующий шаг: остановиться перед отдельным `GATE-GITHUB-BOOTSTRAP`.
+
+RECORD_ID: QUALITY-000003
+PLAN_ID: PLAN-000001
+DATE: 2026-07-26
+SUMMARY: sot_github transition candidate verified; bp_check 0 fail 0 warn; 20 tests, smoke and git fsck pass
+SOURCE_REF: codexlog:.codex/codex-20260726-220340.raw.log#lines=490-1054
+
+- Дата: 2026-07-26
+- Связь ROAD/BACK/PLAN: ROAD-000001 / BACK-000001 / PLAN-000001
+- Содержание: проверены exact pre-transition local/GitHub baseline и owner-approved `sot_github` transition candidate.
+- Команды: read-only `gh api` repository/rulesets/protection checks; `git ls-remote --heads --tags`; `git remote -v`; `git rev-parse`; `git symbolic-ref`; `git rev-list`; `python3 -m py_compile tools/bp_init.py tools/bp_check.py tools/bp_clean.py`; `python3 tools/bp_check.py --repo .`; `python3 -m unittest discover -s tests -p 'test_*.py'`; `python3 src/minesweeper.py --smoke`; `git fsck --full`; SHA-256 product paths.
+- Свидетельство: repository ID `1311607972`, default `develop`, remote `main`/`develop` на exact baseline; settings и rulesets IDs `19766010`/`19766058` без drift; `bp_check` — все `sot-github-*` checks и `PASS summary: 0 fail, 0 warn`; unit tests — `Ran 20 tests`, `OK`; smoke — `Minesweeper smoke: PASS`; `git fsck --full` — exit `0`; candidate `develop` ahead-only `1/0`.
+- Краткий результат: verified local `sot_github` transition candidate.
+- Непроверенные области: команда `count` и deterministic CLI smoke не запускались, потому что реализация не разрешена и команда ещё не существует.
+- Cleanup: bytecode направлен во внешние `/tmp` cache paths; в Product Unit `__pycache__` и `*.pyc` отсутствуют.
+- Что не выполнялось: изменение product paths, push, GitHub write, изменение Settings/rulesets, feature branch, PR, реализация, приёмка и публикация.
+- Blocker: none.
+- Остаточные риски: `RISK-000001` и `RISK-000002` остаются open до реализации и проверки.
+- Следующий шаг: остановиться перед отдельным `GATE-IMPLEMENTATION`.
