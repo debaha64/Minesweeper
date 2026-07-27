@@ -47,3 +47,19 @@ SOURCE_REF: codexlog:.codex/codex-20260726-220340.raw.log#lines=490-1054
 - Свидетельство: owner decision `OD-000003`; repository ID `1311607972`; preflight и candidate verification находятся в `SOURCE_REF`.
 - Что не выполнялось: product paths не изменялись; push, GitHub write, изменение Settings/rulesets, feature branch, PR, реализация, приёмка и публикация не выполнялись.
 - Следующий шаг: остановиться перед отдельным `GATE-IMPLEMENTATION`.
+
+RECORD_ID: CHANGE-000004
+PLAN_ID: PLAN-000001
+DATE: 2026-07-27
+SUMMARY: Owner-approved CLI count implementation completed in the exact three-file product slice
+SOURCE_REF: codexlog:.codex/codex-20260727-041316.raw.log#lines=903-934
+
+- Дата: 2026-07-27
+- Связь ROAD/BACK/PLAN: ROAD-000001 / BACK-000001 / PLAN-000001
+- Содержание: добавлена CLI-команда `count`, валидация поля и координат, документация и unit/CLI regression coverage; `--smoke` сохранён.
+- Изменённые product-файлы: `README.md`, `src/minesweeper.py`, `tests/test_minesweeper.py`.
+- Изменённые управляющие/evidence-файлы: `plans/active/PLAN-000001-product-discovery.md`, `logs/decisions.md`, `logs/changes.md`, `logs/quality.md`.
+- Проверка связанных артефактов: полный unit suite, deterministic CLI smoke, baseline smoke, py_compile и whitespace check прошли.
+- Свидетельство: owner decision `OD-000004`; runtime verification находится в `SOURCE_REF`.
+- Что не выполнялось: commit, новая branch, push, PR, GitHub write, изменение Settings/rulesets, приёмка и публикация не выполнялись.
+- Следующий шаг: owner-review checkpoint перед отдельным `GATE-PR`.

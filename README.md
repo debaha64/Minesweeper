@@ -14,7 +14,32 @@
 
 ## Основные команды
 
-Smoke и unit tests.
+Подсчёт мин в соседних клетках:
+
+```bash
+python3 src/minesweeper.py count --row <row> --column <column> <board-row> [<board-row> ...]
+```
+
+Координаты отсчитываются от нуля. Поле должно быть непустым и прямоугольным
+и может содержать только `*` и `.`.
+
+Пример:
+
+```bash
+python3 src/minesweeper.py count --row 1 --column 1 '*.' '..'
+```
+
+Вывод:
+
+```text
+1
+```
+
+Smoke:
+
+```bash
+python3 src/minesweeper.py --smoke
+```
 
 ## Хранение данных
 
@@ -22,7 +47,7 @@ Smoke и unit tests.
 
 ## Ограничения
 
-Fixture проверяет только подсчёт соседних мин.
+Команда `count` только подсчитывает соседние мины; состояние не сохраняется.
 
 ## Проверки
 
