@@ -31,3 +31,35 @@ SOURCE_REF: codexlog:.codex/codex-20260726-023743.raw.log#lines=441-488
 - Свидетельство: pre-transition baseline `4a649dbe77768f11d194cc71b431162c0a651882`; candidate commit, проверки и product hashes находятся в `SOURCE_REF`.
 - Что не выполнялось: product paths не изменялись; реализация, remote, fetch, pull, push, сеть, GitHub write, приёмка и публикация не выполнялись.
 - Следующий шаг: остановиться перед отдельным `GATE-GITHUB-BOOTSTRAP`.
+
+RECORD_ID: CHANGE-000003
+PLAN_ID: PLAN-000001
+DATE: 2026-07-26
+SUMMARY: Owner-approved local sot_git to sot_github transition checkpoint recorded and candidate-verified
+SOURCE_REF: codexlog:.codex/codex-20260726-220340.raw.log#lines=490-1054
+
+- Дата: 2026-07-26
+- Связь ROAD/BACK/PLAN: ROAD-000001 / BACK-000001 / PLAN-000001
+- Содержание: применён локальный transition checkpoint `sot_git -> sot_github`; добавлен единственный `origin`, получены `main`/`develop`, установлен `origin/HEAD -> origin/develop`, создан local `develop` с upstream, `OD-000003` переведён в `applied`, PLAN остановлен перед `GATE-IMPLEMENTATION`.
+- Изменённые tracked-файлы: `AGENTS.md`, `docs/product/product-passport.md`, `plans/active/PLAN-000001-product-discovery.md`, `logs/decisions.md`, `logs/changes.md`, `logs/quality.md`.
+- Локальное Git-состояние перехода: remote `origin`, remote-tracking refs `origin/main` и `origin/develop`, symbolic `origin/HEAD`, local tracking branch `develop`.
+- Проверка связанных артефактов: полный read-only GitHub preflight не выявил drift; clean candidate commit проверен полным локальным набором для `sot_github`.
+- Свидетельство: owner decision `OD-000003`; repository ID `1311607972`; preflight и candidate verification находятся в `SOURCE_REF`.
+- Что не выполнялось: product paths не изменялись; push, GitHub write, изменение Settings/rulesets, feature branch, PR, реализация, приёмка и публикация не выполнялись.
+- Следующий шаг: остановиться перед отдельным `GATE-IMPLEMENTATION`.
+
+RECORD_ID: CHANGE-000004
+PLAN_ID: PLAN-000001
+DATE: 2026-07-27
+SUMMARY: Owner-approved CLI count implementation completed in the exact three-file product slice
+SOURCE_REF: codexlog:.codex/codex-20260727-041316.raw.log#lines=903-934
+
+- Дата: 2026-07-27
+- Связь ROAD/BACK/PLAN: ROAD-000001 / BACK-000001 / PLAN-000001
+- Содержание: добавлена CLI-команда `count`, валидация поля и координат, документация и unit/CLI regression coverage; `--smoke` сохранён.
+- Изменённые product-файлы: `README.md`, `src/minesweeper.py`, `tests/test_minesweeper.py`.
+- Изменённые управляющие/evidence-файлы: `plans/active/PLAN-000001-product-discovery.md`, `logs/decisions.md`, `logs/changes.md`, `logs/quality.md`.
+- Проверка связанных артефактов: полный unit suite, deterministic CLI smoke, baseline smoke, py_compile и whitespace check прошли.
+- Свидетельство: owner decision `OD-000004`; runtime verification находится в `SOURCE_REF`.
+- Что не выполнялось: commit, новая branch, push, PR, GitHub write, изменение Settings/rulesets, приёмка и публикация не выполнялись.
+- Следующий шаг: owner-review checkpoint перед отдельным `GATE-PR`.
